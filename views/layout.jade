@@ -12,10 +12,10 @@ html
     link(rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css")
     script(src="bower_components/leaflet/dist/leaflet.js")
     link(rel="stylesheet" href="css/leaflet.rrose.css")
-    script(src="js/rrose-src.js")
+    script(src="javascripts/rrose-src.js")
     script(src="bower_components/topojson/topojson.js")
-    script(src="js/L.TopoJSON.js")
-    script(src="js/main.js")
+    script(src="javascripts/L.TopoJSON.js")
+    script(src="javascripts/main.js")
     link(rel="stylesheet" href="stylesheets/app.css")
 
   body
@@ -30,11 +30,6 @@ html
 
           div(class="navbar-brand") California Freshwater Biodiversity
 
+        block content
 
-    block content
-
-    .clearfix
-    footer.footer
-      .container
-        .footer-inner
-          p © 2015 New California Water Atlas / The Nature Conservancy
+    include ./includes/footer
