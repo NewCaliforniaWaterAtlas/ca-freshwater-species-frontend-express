@@ -1,0 +1,40 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title= title
+    script(src="/bower_components/jquery/jquery.min.js")
+    script(src="bower_components/jquery/jquery.min.js")
+    link(rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css")
+    script(src="bower_components/bootstrap/dist/js/bootstrap.min.js")
+    link(rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css")
+    script(src="bower_components/leaflet/dist/leaflet.js")
+    link(rel="stylesheet" href="css/leaflet.rrose.css")
+    script(src="js/rrose-src.js")
+    script(src="bower_components/topojson/topojson.js")
+    script(src="js/L.TopoJSON.js")
+    script(src="js/main.js")
+    link(rel="stylesheet" href="stylesheets/app.css")
+
+  body
+    div(class="navbar navbar-default navbar-fixed-top")
+      .container
+        div(class="navbar-header")
+          button(type="button" class="navbar-toggle")
+            span(class="sr-only") Toggle navigation
+            span(class="icon-bar")
+            span(class="icon-bar")
+            span(class="icon-bar")
+
+          div(class="navbar-brand") California Freshwater Biodiversity
+
+
+    block content
+
+    .clearfix
+    footer.footer
+      .container
+        .footer-inner
+          p © 2015 New California Water Atlas / The Nature Conservancy
