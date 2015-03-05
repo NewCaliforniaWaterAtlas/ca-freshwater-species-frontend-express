@@ -5,11 +5,13 @@
     url = 'http://api-freshwaterspecies.statewater.org/taxonomic_groups/';
   if (!localStorage.getItem('taxonomicGroups')) {
     $.getJSON(url).success(function(data) {
-      for (var i = 0; i < data.taxonomic_groups.length; i++ ) {
-        if (data.taxonomic_groups[i][i]['name'].match('^Insects')) {
-          data.taxonomic_groups[i][i]['name'] = 'Insects';
+      var tg = data.taxonomic_groups;
+      for (var i = 0; i < tg.length; i++ ) {
+        if (tg[i][i]['name'].match('^Insects')) {
+          tg[i][i]['name'] = 'Insects';
         }
-        taxonomicGroups.push(data.taxonomic_groups[i][i]);
+        tg[i][i]['className'] = tg[i][i]['name'].toLowerCase().replace(/\s/g, '-');
+        taxonomicGroups.push(tg[i][i]);
       }
       localStorage.setItem('taxonomicGroups', JSON.stringify(taxonomicGroups));
       global.taxonomicGroups = taxonomicGroups;
