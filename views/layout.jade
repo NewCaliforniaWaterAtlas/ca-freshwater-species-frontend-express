@@ -16,6 +16,7 @@ html
     script(src="bower_components/topojson/topojson.js")
     script(src="javascripts/L.TopoJSON.js")
     script(src="javascripts/main.js")
+    script(src="javascripts/taxonomies_elements.js")
     link(rel="stylesheet" href="stylesheets/app.css")
 
   body
@@ -30,6 +31,8 @@ html
 
           div(class="navbar-brand")
             a(href='/') California Freshwater Biodiversity
+
+        div(class="collapse navbar-collapse" collapse="menuCollapsed")
 
         block content
 

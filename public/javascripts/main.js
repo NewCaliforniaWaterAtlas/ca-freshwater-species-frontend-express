@@ -4,7 +4,8 @@ function initMap() {
     minZoom: 6,
     maxZoom: 15,
     maxBounds: ([[29.5, -127.4], [45.0, -111.1]])
-  }).setView([37.8922, -119.3335], 6);
+  }).
+    setView([37.8922, -119.3335], 6);
 
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     //  L.tileLayer('https://a.tiles.mapbox.com/v4/erictheise.k93ep0p9/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJqanBuc3NvIn0.3n-yBu6rKZtkb19T5Bh8GQ', {
@@ -31,14 +32,6 @@ function initMap() {
     var current = {};
       current.zoom = map.getZoom();
       current.bbox = {
-        'sw': {
-          'lng': map.getBounds().getSouthWest().lng,
-          'lat': map.getBounds().getSouthWest().lat
-        },
-        'ne': {
-          'lng': map.getBounds().getNorthEast().lng,
-          'lat': map.getBounds().getNorthEast().lat
-        },
         'tuple': map.getBounds().getSouthWest().lng.toFixed(2) + ',' +
           map.getBounds().getSouthWest().lat.toFixed(2) + ',' +
           map.getBounds().getNorthEast().lng.toFixed(2) + ',' +
@@ -53,7 +46,6 @@ function initMap() {
 //    var url = 'http://ca-features.statewater.org/hucs?f=topojson&bbox=' + current.bbox.tuple;
     var url;
     url = 'http://api-freshwaterspecies.statewater.org/huc12sz' + current.zoom + '/?in_bbox=' + current.bbox.tuple;
-//    url = 'http://localhost:5010/huc12sz' + current.zoom + '/?in_bbox=' + current.bbox.tuple;
     console.log(url);
     $.getJSON(url).done(addTopoData);
 
