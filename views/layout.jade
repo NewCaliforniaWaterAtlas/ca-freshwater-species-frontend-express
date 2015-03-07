@@ -20,20 +20,22 @@ html
     link(rel="stylesheet" href="stylesheets/app.css")
 
   body
-    div(class="navbar navbar-default navbar-fixed-top")
+    nav.navbar.navbar-default.navbar-fixed-top
       .container
-        div(class="navbar-header")
-          button(type="button" class="navbar-toggle")
-            span(class="sr-only") Toggle navigation
-            span(class="icon-bar")
-            span(class="icon-bar")
-            span(class="icon-bar")
+        .navbar-header
+          button.navbar-toggle(type="button" collapse="collapsed")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
 
-          div(class="navbar-brand")
+          .navbar-brand
             a(href='/') California Freshwater Biodiversity
 
-        div(class="collapse navbar-collapse" collapse="menuCollapsed")
+        .collapse.navbar-collapse(collapse="menuCollapsed")
 
-        block content
+        block button-group
+
+    block map-div
 
     include ./includes/footer

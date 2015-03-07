@@ -1,23 +1,24 @@
 (function (global, $) {
-  var dropdownMenu = {};
+  var
+    dropdownMenu = {},
+    url_species = 'http://api-freshwaterspecies.statewater.org/species/';
   // create divs for each taxonomic group and append a button to the navbar.
   for (var i = 0; i < taxonomicGroups.length; i++) {
     $('.btn-toolbar').
       append(' \
-        <div class="btn-group"> \
+        <div class="btn-group" role="group"> \
           <button id="' + taxonomicGroups[i]['className'] + '" type="button" class="btn btn-sm btn-' + taxonomicGroups[i]['className'] + '">' + taxonomicGroups[i]['name'] + '</button> \
           <button type="button" class="btn btn-sm btn-' + taxonomicGroups[i]['className'] + ' dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> \
             <span class="caret"></span> \
-            <span class="sr-only">Toggle Dropdown</span> \
           </button> \
           <ul id="' + taxonomicGroups[i]['className'] + '" class="dropdown-menu" role="menu"> \
-            <li ui-sref-active="active"> \
-              <a href ui-sref="about"> \
+            <li> \
+              <a href="#"> \
                  % Vulnerable \
               </a> \
             </li> \
-            <li ui-sref-active="active"> \
-              <a href ui-sref="about"> \
+            <li> \
+              <a href="#"> \
                 % Endemic \
               </a> \
             </li> \
@@ -43,8 +44,8 @@
     var liElements = '';
     for (var i = 0; i < dropdownMenu[key].length; i++) {
       liElements += ' \
-        <li ui-sref-active="active"> \
-          <a href ui-sref="about">' + dropdownMenu[key][i].name + '</a> \
+        <li> \
+          <a href="' + url_species + dropdownMenu[key][i].id + '">' + dropdownMenu[key][i].name + '</a> \
         </li> \
       ';
     }

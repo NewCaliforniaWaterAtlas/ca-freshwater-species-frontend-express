@@ -1,11 +1,12 @@
 extends layout
 
-block content
-  div(class="btn-toolbar navbar navbar-right" role="toolbar")
+block button-group
+  .btn-toolbar.navbar.navbar-right(role="toolbar")
   script(src='javascripts/species_buttons.js')
 
-  .row
-    div(class="col-md-10")
-      #map
-
-  include ./includes/speciesinit.jade
+block map-div
+  .container
+    .row
+      .col-md-10
+        #map
+        script initMap();

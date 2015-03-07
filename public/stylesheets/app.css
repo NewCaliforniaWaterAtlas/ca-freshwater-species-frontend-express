@@ -58,7 +58,10 @@ body {
   color:            #fff;
   background-color: rgb(153,153,153);
 }
-
+.dropdown-menu {
+  font-size:        0.8em;
+  z-index:          1100;
+}
 .footer {
   /**
    * position, bottom, width, height, all
