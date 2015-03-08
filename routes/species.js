@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('species', { title: 'Freshwater Species Database' });
+  res.render('species', { title: 'Search by Species : Freshwater Species Database' });
 });
 
 module.exports = router;

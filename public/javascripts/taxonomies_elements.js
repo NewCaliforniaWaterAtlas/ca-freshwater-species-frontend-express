@@ -1,17 +1,18 @@
 (function (global, $) {
-  // get the taxonomic groups and counts
+  // get the taxonomic groups and their frequencies
   var
     taxonomicGroups = [],
     url = 'http://api-freshwaterspecies.statewater.org/taxonomic_groups/';
+    // url = 'http://localhost:5010/taxonomic_groups/';
   if (!localStorage.getItem('taxonomicGroups')) {
     $.getJSON(url).success(function(data) {
       var tg = data.taxonomic_groups;
       for (var i = 0; i < tg.length; i++ ) {
-        if (tg[i][i]['name'].match('^Insects')) {
-          tg[i][i]['name'] = 'Insects';
+        if (tg[i]['name'].match('^Insects')) {
+          tg[i]['name'] = 'Insects';
         }
-        tg[i][i]['className'] = tg[i][i]['name'].toLowerCase().replace(/\s/g, '-');
-        taxonomicGroups.push(tg[i][i]);
+        tg[i]['className'] = tg[i]['name'].toLowerCase().replace(/\s/g, '-');
+        taxonomicGroups.push(tg[i]);
       }
       localStorage.setItem('taxonomicGroups', JSON.stringify(taxonomicGroups));
       global.taxonomicGroups = taxonomicGroups;

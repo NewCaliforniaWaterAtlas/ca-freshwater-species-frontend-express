@@ -1,5 +1,7 @@
 function initMap() {
-  var l;
+  var
+    l,
+    apiHost = 'localhost:5010';
   var map = L.map('map', {
     minZoom: 6,
     maxZoom: 15,
@@ -13,20 +15,6 @@ function initMap() {
   }).addTo(map);
 
   L.control.scale({ position: 'bottomleft' }).addTo(map);
-
-  // Colorbrewer2: ten data classes, qualitative, applied to hr_name
-  var cb_hr_name = [
-    'rgb(141,211,199)',
-    'rgb(255,255,179)',
-    'rgb(190,186,218)',
-    'rgb(251,128,114)',
-    'rgb(128,177,211)',
-    'rgb(253,180,98)',
-    'rgb(179,222,105)',
-    'rgb(252,205,229)',
-    'rgb(217,217,217)',
-    'rgb(188,128,189)'
-  ];
 
   map.on('load dragend zoomend', function (e) {
     var current = {};
@@ -42,15 +30,13 @@ function initMap() {
   });
 
   function getGeoJson(current) {
-    console.log('make ajax request.');
-//    var url = 'http://ca-features.statewater.org/hucs?f=topojson&bbox=' + current.bbox.tuple;
-    var url;
-    url = 'http://api-freshwaterspecies.statewater.org/huc12sz' + current.zoom + '/?in_bbox=' + current.bbox.tuple;
-    console.log(url);
-    $.getJSON(url).done(addTopoData);
+    console.log('make ajax huc request.');
+    var url_hucs;
+    url_hucs = 'http://' + apiHost + '/huc12sz' + current.zoom + '/?in_bbox=' + current.bbox.tuple;
+    $.getJSON(url_hucs).done(addTopoData);
 
-    function addTopoData(topoData){
-      console.log('ajax request processing complete.');
+    function addTopoData(topoData) {
+      console.log('ajax huc request processing complete.');
       console.log(topoData);
       if (l !== undefined) {
         map.removeLayer(l);
@@ -62,11 +48,11 @@ function initMap() {
       l.eachLayer(handleLayer);
     }
 
-    function handleLayer(layer){
+    function handleLayer(layer) {
       layer.setStyle(style(layer));
 
       layer.on('mouseover mousemove', function(e) {
-        layer.setStyle({ fillOpacity: 0.9 });
+        layer.setStyle({fillOpacity: 0.9});
       });
 
       layer.on('mouseout', function(e) {
@@ -76,25 +62,35 @@ function initMap() {
 
       layer.bindPopup(
         '<b>' + layer.feature.properties.first_hu_1 + '</b><br/>' +
-          '(' + layer.feature.properties.hr_name + ')'
+        '(' + layer.feature.properties.hr_name + ')'
       );
     }
+  }
 
-    function style (e) {
-      var fillColor;
-      switch (e.feature.properties.hr_name) {
-        case 'Central Coast':     fillColor = cb_hr_name[0]; break;
-        case 'Colorado River':    fillColor = cb_hr_name[1]; break;
-        case 'North Coast':       fillColor = cb_hr_name[2]; break;
-        case 'North Lahontan':    fillColor = cb_hr_name[3]; break;
-        case 'Sacramento River':  fillColor = cb_hr_name[4]; break;
-        case 'San Francisco Bay': fillColor = cb_hr_name[5]; break;
-        case 'San Joaquin River': fillColor = cb_hr_name[6]; break;
-        case 'South Coast':       fillColor = cb_hr_name[7]; break;
-        case 'South Lahontan':    fillColor = cb_hr_name[8]; break;
-        case 'Tulare Lake':       fillColor = cb_hr_name[9]; break;
-      }
-      return { stroke: true, color: '#111', weight: 1, opacity:0.7, fill: true, fillColor: fillColor, fillOpacity: 0.5 };
+  function style (e) {
+    return {
+      stroke: true, color: '#111', weight: 1, opacity:0.7,
+      fill: true, fillColor: '#fff', fillOpacity: 0.4 };
+  }
+
+  $('.species-id').on('click', function () {
+    getHuc12sBySpecies($(this).data('speciesId'), $(this).parents('ul').attr('id'));
+  });
+
+  function getHuc12sBySpecies(species_id, className) {
+    console.log('make ajax species request.');
+    var url_huc12s_by_species = 'http://' + apiHost + '/huc12sbyspecies/' + species_id;
+    $.getJSON(url_huc12s_by_species).done(renderHuc12s);
+
+    function renderHuc12s(speciesData) {
+      console.log('ajax huc request processing complete.');
+      console.log(speciesData.length);
+      l.eachLayer(function(layer) {
+        layer.setStyle(style(layer));
+        if ($.inArray(layer.feature.id, speciesData) > -1) {
+          layer.setStyle({fillColor: $('.btn-' + className).css('background-color')});
+        }
+      });
     }
 
   }
