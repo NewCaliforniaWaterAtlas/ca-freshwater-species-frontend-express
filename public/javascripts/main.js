@@ -81,14 +81,15 @@ function initMap() {
     getHuc12sBySpecies($(this).data('speciesId'), $(this).parents('ul').attr('id'));
   });
 
-  function getHuc12sBySpecies(species_id, className) {
+  function getHuc12sBySpecies(speciesId, className) {
     console.log('make ajax species request.');
-    var url_huc12s_by_species = 'http://' + apiHost + '/huc12sbyspecies/' + species_id;
+    var url_huc12s_by_species = 'http://' + apiHost + '/huc12sbyspecies/' + speciesId;
     $.getJSON(url_huc12s_by_species).done(renderHuc12s);
 
     function renderHuc12s(speciesData) {
       console.log('ajax huc request processing complete.');
       console.log(speciesData.length);
+      updateSummary(speciesId, speciesData.length);
       l.eachLayer(function(layer) {
         layer.setStyle(style(layer));
         if ($.inArray(layer.feature.id, speciesData) > -1) {
@@ -99,4 +100,20 @@ function initMap() {
 
   }
 
+  function updateSummary(speciesId, count) {
+    $('#summary').show();
+    var speciesSlug;
+    if (typeof species[speciesId].common_name === 'undefined' || !species[speciesId].common_name ) {
+      speciesSlug = '<a target="_new" href="http://en.wikipedia.org/wiki/' + species[speciesId].scientific_name + '">' + species[speciesId].scientific_name + '</a>';
+    } else {
+      speciesSlug = 'The ' + species[speciesId].common_name + ' (<a target="_new" href="http://en.wikipedia.org/wiki/' + species[speciesId].scientific_name + '">' + species[speciesId].scientific_name + '</a>)';
+    }
+
+    $('.panel-body').
+      empty().
+      append(' \
+      ' + speciesSlug + ' \
+      has been found in ' + count + ' watersheds in California. \
+    ')
+  }
 }

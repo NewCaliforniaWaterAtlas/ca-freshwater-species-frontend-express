@@ -7,7 +7,11 @@ block button-group
 block map-div
   .container
     .row
-      .col-md-10
+      .col-md-9
         #map
         script(src='javascripts/load-spinner.js')
         script initMap();
+
+      .col-md-3
+        #summary.panel.panel-default(style="display:none")
+          .panel-body
