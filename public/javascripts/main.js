@@ -83,7 +83,7 @@ function initMap() {
 
   function getHuc12sBySpecies(speciesId, className) {
     console.log('make ajax species request.');
-    var url_huc12s_by_species = 'http://' + apiHost + '/huc12sbyspecies/' + speciesId;
+    var url_huc12s_by_species = 'http://' + apiHost + '/huc12sbyspecies/' + speciesId + '/';
     $.getJSON(url_huc12s_by_species).done(renderHuc12s);
 
     function renderHuc12s(speciesData) {
