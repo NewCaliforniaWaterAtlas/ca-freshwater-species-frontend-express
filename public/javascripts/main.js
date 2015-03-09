@@ -3,11 +3,27 @@ function initMap() {
     l,
     apiHost = 'localhost:5010';
   var map = L.map('map', {
+    zoom: 6,
     minZoom: 6,
     maxZoom: 15,
     maxBounds: ([[29.5, -127.4], [45.0, -111.1]])
-  }).
-    setView([37.8922, -119.3335], 6);
+  });
+
+  // on('load') fires when the map's center and zoom are set for the first time, so this precedes setView().
+  map.on('load dragend zoomend', function (e) {
+    var current = {};
+    current.zoom = map.getZoom();
+    current.bbox = {
+      'tuple': map.getBounds().getSouthWest().lng.toFixed(2) + ',' +
+      map.getBounds().getSouthWest().lat.toFixed(2) + ',' +
+      map.getBounds().getNorthEast().lng.toFixed(2) + ',' +
+      map.getBounds().getNorthEast().lat.toFixed(2)
+    };
+    console.log(current);
+    getGeoJson(current);
+  });
+
+  map.setView([37.8922, -119.3335], 6);
 
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     //  L.tileLayer('https://a.tiles.mapbox.com/v4/erictheise.k93ep0p9/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZXJpY3RoZWlzZSIsImEiOiJqanBuc3NvIn0.3n-yBu6rKZtkb19T5Bh8GQ', {
@@ -15,19 +31,6 @@ function initMap() {
   }).addTo(map);
 
   L.control.scale({ position: 'bottomleft' }).addTo(map);
-
-  map.on('load dragend zoomend', function (e) {
-    var current = {};
-      current.zoom = map.getZoom();
-      current.bbox = {
-        'tuple': map.getBounds().getSouthWest().lng.toFixed(2) + ',' +
-          map.getBounds().getSouthWest().lat.toFixed(2) + ',' +
-          map.getBounds().getNorthEast().lng.toFixed(2) + ',' +
-          map.getBounds().getNorthEast().lat.toFixed(2)
-      };
-    console.log(current);
-    getGeoJson(current);
-  });
 
   function getGeoJson(current) {
     console.log('make ajax huc request.');
@@ -38,7 +41,7 @@ function initMap() {
     function addTopoData(topoData) {
       console.log('ajax huc request processing complete.');
       console.log(topoData);
-      if (l !== undefined) {
+      if (typeof l !== 'undefined') {
         map.removeLayer(l);
         l = null;
       }
@@ -48,28 +51,29 @@ function initMap() {
       l.eachLayer(handleLayer);
     }
 
-    function handleLayer(layer) {
+  }
+
+  function handleLayer(layer) {
+    layer.setStyle(style(layer));
+
+    layer.on('mouseover mousemove', function(e) {
+      layer.setStyle({fillOpacity: 0.9});
+    });
+
+    layer.on('mouseout', function(e) {
       layer.setStyle(style(layer));
+      map.closePopup();
+    });
 
-      layer.on('mouseover mousemove', function(e) {
-        layer.setStyle({fillOpacity: 0.9});
-      });
-
-      layer.on('mouseout', function(e) {
-        layer.setStyle(style(layer));
-        map.closePopup();
-      });
-
-      layer.bindPopup(
-        '<b>' + layer.feature.properties.first_hu_1 + '</b><br/>' +
-        '(' + layer.feature.properties.hr_name + ')'
-      );
-    }
+    layer.bindPopup(
+      '<b>' + layer.feature.properties.first_hu_1 + '</b><br/>' +
+      '(' + layer.feature.properties.hr_name + ')'
+    );
   }
 
   function style (e) {
     return {
-      stroke: true, color: '#111', weight: 1, opacity:0.7,
+      stroke: true, color: '#111', weight: 1, opacity: 0.7,
       fill: true, fillColor: '#fff', fillOpacity: 0.4 };
   }
 
