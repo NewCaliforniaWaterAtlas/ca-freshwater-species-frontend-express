@@ -1,3 +1,4 @@
+var auth = require('./auth');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,6 +10,9 @@ var routes = require('./routes/index');
 var species = require('./routes/species');
 
 var app = express();
+
+// Authenticator while site is in development
+app.use(auth);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
