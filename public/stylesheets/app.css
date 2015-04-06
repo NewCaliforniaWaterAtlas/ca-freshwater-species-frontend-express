@@ -22,6 +22,10 @@ body {
   margin-top:   90px; // same as #map
 }
 
+#feedback {
+  margin-top:   50px;
+}
+
 .navbar {
   margin-bottom: -15px;
 }
