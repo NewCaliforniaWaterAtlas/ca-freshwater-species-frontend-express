@@ -40,7 +40,7 @@ html
             .form-group
               label(for="feedback-form-mail" class="col-md-3 control-label") Email address:
               .col-md-8
-                input(type="email" class="form-control" name="feedback-form-mail" id="feedback-form-mail" placeholder="Your email address")
+                input(type="email" class="form-control" name="feedback-form-email" id="feedback-form-email" placeholder="Your email address")
 
             .form-group
               label(for="feedback-form-message" class="col-md-3 control-label") Feedback:
@@ -56,3 +56,18 @@ html
                 input(type="submit" class="btn btn-default" id="feedback-form-submit" name="feedback-form-submit" value="Submit")
 
     include ./includes/footer
+
+  script.
+    $(document).ready(function() {
+      $("#feedback-form-submit").click(function (e) {
+        e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        url: '/feedback',
+        data: $("#feedback-form").serialize(),
+          success: function (response) {
+            $("#submitResponse").html(response);
+          }
+        });
+      });
+    });
