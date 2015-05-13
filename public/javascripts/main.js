@@ -102,18 +102,29 @@ function initMap() {
 
   function updateSummary(speciesId, count) {
     $('#summary').show();
-    var speciesSlug;
+    var
+      speciesSlug = '',
+      panelBody = '';
     if (typeof species[speciesId].common_name === 'undefined' || !species[speciesId].common_name ) {
       speciesSlug = '<a target="_new" href="http://en.wikipedia.org/wiki/' + species[speciesId].scientific_name + '">' + species[speciesId].scientific_name + '</a>';
     } else {
       speciesSlug = 'The ' + species[speciesId].common_name + ' (<a target="_new" href="http://en.wikipedia.org/wiki/' + species[speciesId].scientific_name + '">' + species[speciesId].scientific_name + '</a>)';
     }
 
-    $('.panel-body').
-      empty().
-      append(' \
+    if (count > 0) {
+      panelBody = ' \
       ' + speciesSlug + ' \
       has been found in ' + count + ' watersheds in California. \
-    ')
+      '
+    } else {
+      panelBody  = ' \
+      ' + speciesSlug + ' \
+      is a freshwater species in California, but researchers have not yet provided observation information in the sources we reviewed.  If you know where this species is found, add the locations to the <a href="http://www.gbif.org/">Global Biodiversity Information Facility</a> or another public data repository so it can be included in conservation planning efforts. \
+      '
+    }
+
+    $('.panel-body').
+      empty().
+      append(panelBody);
   }
 }
