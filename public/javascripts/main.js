@@ -119,7 +119,7 @@ function initMap() {
     } else {
       panelBody  = ' \
       ' + speciesSlug + ' \
-      is a freshwater species in California, but researchers have not yet provided observation information in the sources we reviewed.  If you know where this species is found, add the locations to the <a href="http://www.gbif.org/">Global Biodiversity Information Facility</a> or another public data repository so it can be included in conservation planning efforts. \
+      is a freshwater species in California, but researchers have not yet provided observation information in the sources we reviewed.  If you know where this species is found, add the locations to <a href="http://www.inaturalist.org/">iNaturalist.org</a> or another public data repository so it can be included in conservation planning efforts. \
       '
     }
 
