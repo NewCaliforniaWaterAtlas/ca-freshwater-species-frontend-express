@@ -65,13 +65,21 @@ body {
 .btn-mammals {
   background-color: rgb(255,127,0);
 }
-.dropdown-menu {
-  font-size:        0.8em;
-  z-index:          1100;
-  max-height:       740px !important;
-  overflow-y:       auto !important;
 
+.dropdown-menu {
+  font-size:  0.8em;
+  z-index:    1100;
+  max-height: 740px !important;
+  overflow-y: auto !important;
 }
+.dropdown-menu li a {
+  color:      #111;
+}
+.dropdown-menu li a.no-data {
+  color:      #555;
+  font-style: italic;
+}
+
 .footer {
   /**
    * position, bottom, width, height, all

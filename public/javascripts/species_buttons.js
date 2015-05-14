@@ -29,17 +29,24 @@
       replace(/\s/g, '-')
       ].push({
         'name': species[key]['scientific_name'],
-        'id': key
+        'id': key,
+        'data': species[key]['count'] > 0
       });
   });
   // sort each array alphabetically by scientific name.
   Object.keys(dropdownMenu).forEach(function (key, index) {
     dropdownMenu[key].sort(function(a, b) { return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0); });
-    var liElements = '';
+    var
+      liElements = '',
+      no_data = '';
     for (var i = 0; i < dropdownMenu[key].length; i++) {
+      console.log(dropdownMenu[key][i]);
+      if (!dropdownMenu[key][i].data) {
+        no_data = ' class="no-data"'
+      }
       liElements += ' \
         <li> \
-          <a href="#" class="species-id" data-species-id="' + dropdownMenu[key][i].id + '">' + dropdownMenu[key][i].name + '</a> \
+          <a href="#"' + no_data + ' data-species-id="' + dropdownMenu[key][i].id + '">' + dropdownMenu[key][i].name + '</a> \
         </li> \
       ';
     }
