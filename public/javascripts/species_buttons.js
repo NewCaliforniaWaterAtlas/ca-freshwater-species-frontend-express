@@ -1,5 +1,21 @@
 (function (global, $) {
-  var dropdownMenu = {};
+  var
+    displayOrder = {
+       "fishes": 1,
+       "herps": 2,
+       "crustaceans": 3,
+       "mollusks": 4,
+       "birds": 5,
+       "plants": 6,
+       "mammals": 7,
+       "insects": 8
+    },
+    dropdownMenu = {};
+  // impose display order on taxonomic groups.
+  for (var i = 0; i < taxonomicGroups.length; i++) {
+    taxonomicGroups[i].displayOrder = displayOrder[taxonomicGroups[i].className];
+  }
+  taxonomicGroups.sort(function(a, b) { return a.displayOrder - b.displayOrder; });
   // create divs for each taxonomic group and append a button to the navbar.
   for (var i = 0; i < taxonomicGroups.length; i++) {
     $('.btn-toolbar').
