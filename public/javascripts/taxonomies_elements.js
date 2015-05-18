@@ -22,7 +22,7 @@
   }
   // get the species
   var
-    species = [];
+    species = [],
     url = 'http://api-freshwaterspecies.statewater.org/species/';
   if (!localStorage.getItem('species')) {
     $.getJSON(url).success(function(data) {
