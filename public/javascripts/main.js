@@ -111,6 +111,26 @@ function initMap() {
       speciesSlug = 'The ' + species[speciesId].common_name + ' (<a target="_new" href="http://en.wikipedia.org/wiki/' + species[speciesId].scientific_name + '">' + species[speciesId].scientific_name + '</a>)';
     }
 
+    if (species[speciesId].alt_scientific_names) {
+      var
+        s = species[speciesId].alt_scientific_names,
+        alternatives = ''
+        ;
+      switch (s.split(',').length) {
+        case 1:
+          speciesSlug += ', also known by the name ' + s + ', ';
+          break;
+        case 2:
+          alternatives = s.substring(0, s.lastIndexOf(',')) + ' and' + s.substring(s.lastIndexOf(',') + 1);
+          speciesSlug += ', also known by the names ' + alternatives + ', ';
+          break;
+        default:
+          alternatives = s.substring(0, s.lastIndexOf(',')) + ', and' + s.substring(s.lastIndexOf(',') + 1);
+          speciesSlug += ', also known by the names ' + alternatives + ', ';
+          break;
+      }
+    }
+
     if (count > 0) {
       panelBody = ' \
       ' + speciesSlug + ' \
