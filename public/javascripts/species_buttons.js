@@ -3,10 +3,10 @@
     append(' \
       <div class="btn-group" data-toggle="buttons"> \
         <label class="btn btn-default btn-sm active"> \
-          <input type="radio" name="sci_or_com" data-value="scientific" autocomplete="off" checked> Scientific \
+          <input type="radio" name="sci_or_com" data-value="sci" autocomplete="off" checked> Scientific \
         </label> \
         <label class="btn btn-default btn-sm"> \
-          <input type="radio" name="sci_or_com" data-value="common" autocomplete="off"> Common \
+          <input type="radio" name="sci_or_com" data-value="com" autocomplete="off"> Common \
         </label> \
       </div> \
     ');
@@ -56,45 +56,38 @@
   // sort & uniqify each array alphabetically by scientific name and create a dom element that can
   // swapped in and out of the drop down menus.
   Object.keys(dropdownMenu).forEach(function(key) {
+
+    // classStub simplifies keys so that they match displayOrder.
     var
-      liElements,
       classStub = key.
         replace(/(^Insects).*$/, '$1').
         toLowerCase().
-        replace(/\s/g, '-');
+        replace(/\s/g, '-'),
+      liElements
+      ;
 
-    // prepare the scientific name dom list.
-    $('<ul id="' + classStub + '-sci' + '" class="dropdown-menu" role="menu"></ul>').appendTo('body');
-    dropdownMenu[key].sort(function(a, b) {
-      return (a.sci > b.sci) ? 1 : ((b.sci > a.sci) ? -1 : 0);
-    });
-    liElements = '\
-      <li><a href="#">% Vulnerable</a></li>\
-      <li><a href="#">% Endemic</a></li>\
-    ';
-    for (var i = 0; i < dropdownMenu[key].length; i++) {
-      liElements += '\
-        <li><a href="#" class="species-id" data-species-id="' + dropdownMenu[key][i].id + '">' + dropdownMenu[key][i].sci + '</a></li>\
+    // prepare the dom lists.
+    ['sci', 'com'].forEach(function (nomenclature) {
+      $('<ul id="' + nomenclature + '-' + classStub + '" class="dropdown-menu" role="menu"></ul>').appendTo('body');
+      dropdownMenu[key].sort(function(a, b) {
+        return (a[nomenclature] > b[nomenclature]) ? 1 : ((b[nomenclature] > a[nomenclature]) ? -1 : 0);
+      });
+      liElements = '\
+        <li><a href="#">% Vulnerable</a></li>\
+        <li><a href="#">% Endemic</a></li>\
       ';
-    }
-    $('ul#' + classStub + '-sci').append(liElements);
-    $('button.btn-' + classStub + '.dropdown-toggle').parent().append($('ul#' + classStub + '-sci'));
-
-    // prepare the common name dom list.
-    $('<ul id="' + classStub + '-com' + '" class="dropdown-menu" role="menu"></ul>').appendTo('body');
-    dropdownMenu[key].sort(function(a, b) {
-      return (a.com > b.com) ? 1 : ((b.com > a.com) ? -1 : 0);
+      for (var i = 0; i < dropdownMenu[key].length; i++) {
+        if (dropdownMenu[key][i][nomenclature]) {
+          liElements += '\
+            <li><a href="#" class="species-id" data-species-id="' + dropdownMenu[key][i].id + '">' + dropdownMenu[key][i][nomenclature] + '</a></li>\
+          ';
+        }
+      }
+      $('ul#' + nomenclature + '-' + classStub).append(liElements);
+      global['$' + nomenclature + 'Lists'] = $('ul.dropdown-menu[id|="' + nomenclature + '"]');
     });
-    liElements = '\
-      <li><a href="#">% Vulnerable</a></li>\
-      <li><a href="#">% Endemic</a></li>\
-    ';
-    for (var i = 0; i < dropdownMenu[key].length; i++) {
-      liElements += '\
-        <li><a href="#" class="species-id" data-species-id="' + dropdownMenu[key][i].id + '">' + dropdownMenu[key][i].com + '</a></li>\
-      ';
-    }
-    $('ul#' + classStub + '-com').append(liElements);
+    // start by offering scientific names.
+    $('button.btn-' + classStub + '.dropdown-toggle').parent().append($('ul#' + 'sci-' + classStub));
   });
 
 })(window, jQuery);

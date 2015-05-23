@@ -127,4 +127,20 @@ function initMap() {
       empty().
       append(panelBody);
   }
+
+  // swap between dropdowns of scientific names and common names.
+  $('input[name=sci_or_com]').on('change', function () {
+    if ($(this).data('value') === 'com') {
+      $('ul.dropdown-menu[id|="sci"]').detach();
+      $.each($comLists, function (index, $ul) {
+        $('button.btn-' + $(this).attr('id').replace('com-','') + '.dropdown-toggle').parent().append($(this));
+      })
+    } else if ($(this).data('value') === 'sci') {
+      $('ul.dropdown-menu[id|="com"]').detach();
+      $.each($sciLists, function (index, $ul) {
+        $('button.btn-' + $(this).attr('id').replace('sci-','') + '.dropdown-toggle').parent().append($(this));
+      })
+    }
+  })
+
 }
