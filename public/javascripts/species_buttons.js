@@ -78,8 +78,8 @@
         <li><a href="#">% Endemic</a></li>\
       ';
       for (var i = 0; i < dropdownMenu[key].length; i++) {
-        // don't include this species if it has no name in this nomenclature.
-        if (dropdownMenu[key][i][nomenclature]) {
+        // don't include this species if it has no name, or is 'NA' in this nomenclature.
+        if (dropdownMenu[key][i][nomenclature] && dropdownMenu[key][i][nomenclature] !== 'NA') {
           liElements += '\
             <li><a href="#" class="species-id" data-species-id="' + dropdownMenu[key][i].id + '">' + dropdownMenu[key][i][nomenclature] + '</a></li>\
           ';
