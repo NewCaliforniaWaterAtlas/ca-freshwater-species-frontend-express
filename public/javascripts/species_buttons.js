@@ -1,14 +1,14 @@
 (function (global, $) {
   $('.btn-toolbar').
-    append(' \
-      <div class="btn-group" data-toggle="buttons"> \
-        <label class="btn btn-default btn-sm active"> \
-          <input type="radio" name="sci_or_com" data-value="sci" autocomplete="off" checked> Scientific \
-        </label> \
-        <label class="btn btn-default btn-sm"> \
-          <input type="radio" name="sci_or_com" data-value="com" autocomplete="off"> Common \
-        </label> \
-      </div> \
+    append('\
+      <div class="btn-group" data-toggle="buttons">\
+        <label class="btn btn-default btn-sm active">\
+          <input type="radio" name="sci_or_com" data-value="sci" autocomplete="off" checked> Scientific\
+        </label>\
+        <label class="btn btn-default btn-sm">\
+          <input type="radio" name="sci_or_com" data-value="com" autocomplete="off"> Common\
+        </label>\
+      </div>\
     ');
 
   var
@@ -31,13 +31,13 @@
   // create divs for each taxonomic group and append a button to the navbar.
   for (var i = 0; i < taxonomicGroups.length; i++) {
     $('.btn-toolbar').
-      append(' \
-        <div class="btn-group" role="group"> \
-          <button id="' + taxonomicGroups[i]['className'] + '" type="button" class="btn btn-sm btn-' + taxonomicGroups[i]['className'] + '">' + taxonomicGroups[i]['name'] + '</button> \
-          <button type="button" class="btn btn-sm btn-' + taxonomicGroups[i]['className'] + ' dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> \
-            <span class="caret"></span> \
-          </button> \
-        </div> \
+      append('\
+        <div class="btn-group" role="group">\
+          <button id="' + taxonomicGroups[i]['className'] + '" type="button" class="btn btn-sm btn-' + taxonomicGroups[i]['className'] + '">' + taxonomicGroups[i]['name'] + '</button>\
+          <button type="button" class="btn btn-sm btn-' + taxonomicGroups[i]['className'] + ' dropdown-toggle" data-toggle="dropdown" aria-expanded="false">\
+            <span class="caret"></span>\
+          </button>\
+        </div>\
       ');
   }
 
@@ -53,7 +53,8 @@
       'com': species[key]['common_name']
       })
   });
-  // sort & uniqify each array alphabetically by scientific name and create a dom element that can
+
+  // sort & uniqify each array alphabetically by name and create a dom element that can
   // swapped in and out of the drop down menus.
   Object.keys(dropdownMenu).forEach(function(key) {
 
@@ -77,6 +78,7 @@
         <li><a href="#">% Endemic</a></li>\
       ';
       for (var i = 0; i < dropdownMenu[key].length; i++) {
+        // don't include this species if it has no name in this nomenclature.
         if (dropdownMenu[key][i][nomenclature]) {
           liElements += '\
             <li><a href="#" class="species-id" data-species-id="' + dropdownMenu[key][i].id + '">' + dropdownMenu[key][i][nomenclature] + '</a></li>\
@@ -86,7 +88,7 @@
       $('ul#' + nomenclature + '-' + classStub).append(liElements);
       global['$' + nomenclature + 'Lists'] = $('ul.dropdown-menu[id|="' + nomenclature + '"]');
     });
-    // start by offering scientific names.
+    // initial state offers scientific names.
     $('button.btn-' + classStub + '.dropdown-toggle').parent().append($('ul#' + 'sci-' + classStub));
   });
 
