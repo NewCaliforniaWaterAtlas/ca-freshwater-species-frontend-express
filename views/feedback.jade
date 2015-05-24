@@ -9,6 +9,7 @@ html
     link(rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css")
     script(src="bower_components/bootstrap/dist/js/bootstrap.min.js")
     link(rel="stylesheet" href="stylesheets/app.css")
+    script(src="https://www.google.com/recaptcha/api.js")
 
   body
     nav.navbar.navbar-default.navbar-fixed-top
@@ -48,7 +49,7 @@ html
 
             .form-group
               .col-md-8.col-md-offset-3
-                .captchaHolder!= captcha
+                != captcha
 
             .form-group
               .col-md-2.col-md-offset-5

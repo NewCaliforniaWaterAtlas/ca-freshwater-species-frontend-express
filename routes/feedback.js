@@ -1,11 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var sweetCaptcha = new require('sweetcaptcha')(
-  process.env.SWEETCAPTCHA_ID,
-  process.env.SWEETCAPTCHA_KEY,
-  process.env.SWEETCAPTCHA_SECRET
-);
+var recaptcha = require('express-recaptcha');
+recaptcha.init(process.env.RECAPTCHA_SITE_KEY, process.env.RECAPTCHA_SECRET);
 
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
@@ -25,20 +22,13 @@ console.log(transporter);
 
 /* GET feedback form. */
 router.get('/', function(req, res, next) {
-  sweetCaptcha.api('get_html', { platform: 'js-sdk' }, function (err, html) {
-    res.render('feedback', { title: 'Feedback : Freshwater Species Database', captcha: html });
-  });
+  res.render('feedback', { title: 'Feedback : Freshwater Species Database', captcha: recaptcha.render() });
 });
 
 /* POST feedback form. */
 router.post('/', function(req, res) {
-  sweetCaptcha.api('check', {
-    sckey: req.body['sckey'],
-    scvalue: req.body['scvalue']},
-    function(err, response) {
-      if (err) return console.log(err);
-
-      if (response === 'true') {
+  recaptcha.verify(req, function(error) {
+      if (!error) {
         var mailOptions = {
           from: 'Freshwater Feedback <info@statewater.org>',
           to: process.env.FEEDBACK,
@@ -63,8 +53,8 @@ router.post('/', function(req, res) {
       }
 
       else {
-        console.log('Invalid Captcha');
         res.send('Try again');
+        return console.log(err);
       }
 
     });
