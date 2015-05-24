@@ -77,9 +77,19 @@
         <li><a href="#">% Vulnerable</a></li>\
         <li><a href="#">% Endemic</a></li>\
       ';
+      var
+        suppress = ['', 'NA'];
       for (var i = 0; i < dropdownMenu[key].length; i++) {
-        // don't include this species if it has no name, or is 'NA' in this nomenclature.
-        if (dropdownMenu[key][i][nomenclature] && dropdownMenu[key][i][nomenclature] !== 'NA') {
+        // suppress this species if it is indistinguishable from another species.
+        if (i < dropdownMenu[key].length - 1) {
+          if (dropdownMenu[key][i][nomenclature] === dropdownMenu[key][i+1][nomenclature]) {
+            if (suppress.indexOf(dropdownMenu[key][i][nomenclature]) < 0) {
+              suppress.push(dropdownMenu[key][i][nomenclature]);
+            }
+          }
+        }
+        // don't include this species if it has no name, or is suppressed.
+        if (suppress.indexOf(dropdownMenu[key][i][nomenclature]) < 0) {
           liElements += '\
             <li><a href="#" class="species-id" data-species-id="' + dropdownMenu[key][i].id + '">' + dropdownMenu[key][i][nomenclature] + '</a></li>\
           ';
