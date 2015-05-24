@@ -77,8 +77,7 @@
         <li><a href="#">% Vulnerable</a></li>\
         <li><a href="#">% Endemic</a></li>\
       ';
-      var
-        suppress = ['', 'NA'];
+      var suppress = ['', 'NA'];
       for (var i = 0; i < dropdownMenu[key].length; i++) {
         // suppress this species if it is indistinguishable from another species.
         if (i < dropdownMenu[key].length - 1) {
