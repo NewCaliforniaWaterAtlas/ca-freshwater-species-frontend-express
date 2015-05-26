@@ -53,12 +53,26 @@ html
 
             .form-group
               .col-md-2.col-md-offset-5
-                input(type="submit" class="btn btn-default" id="feedback-form-submit" name="feedback-form-submit" value="Submit")
+                input(type="submit" class="btn btn-default" id="feedback-form-submit" name="feedback-form-submit" value="Submit" disabled="disabled")
 
     include ./includes/footer
 
   script.
     $(document).ready(function() {
+      $('#feedback-form-name, #feedback-form-email, #feedback-form-message').change(function () {
+        var empty = false;
+        $('#feedback-form-name, #feedback-form-email, #feedback-form-message').each(function () {
+          if ($(this).val() == '') {
+            empty = true;
+            return false;
+          }
+        })
+        if (empty) {
+          $("#feedback-form-submit").prop('disabled', 'disabled');
+        } else {
+          $("#feedback-form-submit").removeProp("disabled");
+        }
+      })
       $("#feedback-form-submit").click(function (e) {
         e.preventDefault();
       $.ajax({
