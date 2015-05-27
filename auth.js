@@ -3,10 +3,10 @@
 var auth = require('basic-auth');
 
 var
-  admin = process.env.USER,
+  admin = process.env.AUTH_USER,
   admins = {};
 
-admins[admin] = { password: process.env.PASS };
+admins[admin] = { password: process.env.AUTH_PASS };
 
 module.exports = function(req, res, next) {
 
