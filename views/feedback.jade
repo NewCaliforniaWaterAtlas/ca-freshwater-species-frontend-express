@@ -80,8 +80,20 @@ html
         url: '/feedback',
         data: $("#feedback-form").serialize(),
           success: function (response) {
-            $("#submitResponse").html(response);
+            $("#feedback-thanks").modal();
           }
         });
       });
     });
+
+#feedback-thanks.modal.fade(tabindex="-1" role="dialog" aria-labelledby="feedback-thanks-label" aria-hidden="true")
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button(type="button" class="close" data-dismiss="modal" aria-label="Close")
+          span(aria-hidden="true") &times;
+        h4 Thank you for your feedback.
+      .modal-body
+        p We've received your feedback and will be in touch if you had a specific question.
+      .modal-footer
+        button.btn.btn-default(type="button" data-dismiss="modal") Close
